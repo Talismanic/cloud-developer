@@ -5,6 +5,7 @@ const c = config.dev;
 
 //Configure AWS
 var credentials = new AWS.SharedIniFileCredentials({profile: 'default'});
+console.log(credentials);
 AWS.config.credentials = credentials;
 
 export const s3 = new AWS.S3({

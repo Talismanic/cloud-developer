@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
 import * as AWS from '../../../../aws';
+import { isNull } from 'util';
 
 const router: Router = Router();
 
@@ -18,12 +19,52 @@ router.get('/', async (req: Request, res: Response) => {
 
 //@TODO
 //Add an endpoint to GET a specific resource by Primary Key
+router.get('/:id', async (req: Request, res: Response) => {
+    let itemId = req.params.id;
+    // console.log(typeof itemId)
+    if (isNaN(parseInt(itemId))){
+        res.status(400).send("Id needs to be numeric")
+    }
+    else{
+        const items = await FeedItem.findAll({
+            where: {
+                id: itemId
+            }
+        });
+        // console.log(items.length);
+        if(items.length < 1){
+            res.status(404).send("item not found");
+        }
+
+        res.send(items);
+    }
+});
 
 // update a specific resource
 router.patch('/:id', 
     requireAuth, 
     async (req: Request, res: Response) => {
         //@TODO try it yourself
+        let itemId = req.params.id;
+        
+        if (isNaN(parseInt(itemId))){
+            res.status(400).send("Id needs to be numeric")
+        }
+
+        else{
+            let captionData = req.body.caption;
+            let urlData = req.body.url;
+            const item = await FeedItem.update({caption: captionData, url: urlData},{
+                where:{
+                    id :itemId
+                }
+            });
+
+            if (item){
+                res.status(201).send(item)
+            }
+
+        }
         res.send(500).send("not implemented")
 });
 
