@@ -1,11 +1,9 @@
-const express = require("express");
-// import express from 'express';
+import express from 'express';
 import { sequelize } from './sequelize';
 
 import { IndexRouter } from './controllers/v0/index.router';
 
-// import bodyParser from 'body-parser';
-const bodyParser = require("body-parser");
+import bodyParser from 'body-parser';
 
 import { V0MODELS } from './controllers/v0/model.index';
 
