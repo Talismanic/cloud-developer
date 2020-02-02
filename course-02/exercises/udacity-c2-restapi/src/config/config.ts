@@ -1,14 +1,15 @@
 export const config = {
   "dev": {
-    "username": "cfitudagramdevmehedi",
-    "password": "cfitudagramdevmehedi",
-    "database": "cfitudagramdevmehedi",
-    "host": "cfitudagramdevmehedi.cpnjvmffwyfz.us-east-1.rds.amazonaws.com",
+    "username": process.env.POSTGRE_USERNAME,
+    "password": process.env.POSTGRE_PASSWORD,
+    "database": process.env.POSTGRE_DATABASE,
+    "host": process.env.POSTGRE_HOST,
     "dialect": "postgres",
-    "aws_region": "us-east-1",
-    "aws_profile": "default",
-    "aws_media_bucket": "cfitudagram-dev-mehedi"
-  },    
+    "aws_region": process.env.AWS_REGION,
+    "aws_profile": process.env.AWS_PROFILE,
+    "aws_media_bucket": process.env.AWS_S3_BUCKET,
+    "jwt_secret":process.env.JWT_SECRET
+  } , 
   "prod": {
     "username": "",
     "password": "",
