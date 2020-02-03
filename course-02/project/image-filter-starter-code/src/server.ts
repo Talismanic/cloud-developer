@@ -46,14 +46,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       res.status(400).send({reason:"Image URL is a mandatory parameter"});
     }
 
-    const image = await filterImageFromURL(imageUrl);
+    const imageFile = await filterImageFromURL(imageUrl);
 
-    res.status(200).sendFile(image, (err: Error)=>{
+    res.status(200).sendFile(imageFile, (err: Error)=>{
       if (err){
-        res.status(500).send({reason:"something went wring"});
+        res.status(500).send({reason:"something went wrong"});
       }
 
-      deleteLocalFiles([image]);
+      deleteLocalFiles([imageFile]);
 
     });
     
