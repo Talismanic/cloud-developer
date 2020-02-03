@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import * as path from "path";
 
 (async () => {
 
@@ -33,8 +34,30 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+  app.get("/", async (req, res) => {
+    res.send("try GET /filteredimage?image_url={{}}");
+});
+
+
+
+  app.get( "/filteredimage", async ( req, res ) => {
+    const imageUrl = req.query.image_url;
+
+    if (imageUrl == null || typeof imageUrl == undefined){
+      res.status(400).send({reason:"Image URL is a mandatory parameter"});
+    }
+
+    const image = await path.normalize(await filterImageFromURL(imageUrl));
+
+    res.status(200).sendFile(image, (err: Error)=>{
+      if (err){
+        res.status(500).send({reason:"something went wring"});
+      }
+
+      deleteLocalFiles([image]);
+
+    });
+    
   } );
   
 
