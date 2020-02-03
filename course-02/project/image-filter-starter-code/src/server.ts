@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import * as path from "path";
 
 (async () => {
 
@@ -47,7 +46,7 @@ import * as path from "path";
       res.status(400).send({reason:"Image URL is a mandatory parameter"});
     }
 
-    const image = await path.normalize(await filterImageFromURL(imageUrl));
+    const image = await filterImageFromURL(imageUrl);
 
     res.status(200).sendFile(image, (err: Error)=>{
       if (err){
